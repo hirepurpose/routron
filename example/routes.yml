@@ -1,0 +1,26 @@
+
+# Listen on 8888 for all interfaces
+listen: :8888
+
+# Define our backends. These will be used to handle the proxied
+# requests for routes they match.
+backends:
+  -
+    name: django
+    host: http://localhost:8000
+  -
+    name: node
+    host: http://localhost:5000
+  -
+    name: rails
+    host: http://localhost:3000
+  -
+    name: google
+    host: http://www.google.com
+
+# Define our routes, processed in this order. The first route
+# to match a request is used.
+routes:
+  -
+    path: /**
+    route: rails
