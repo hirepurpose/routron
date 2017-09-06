@@ -20,7 +20,7 @@ backends:
 routes:
   -
     path: /hpa/**
-    route: http://localhost:8000/hpa/
+    route: django
   -
     path: /jobs
     route: django

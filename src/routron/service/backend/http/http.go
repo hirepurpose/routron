@@ -5,6 +5,7 @@ import (
   "fmt"
   "time"
   "strings"
+  "net/url"
   "net/http"
   "net/http/httputil"
 )
@@ -114,8 +115,11 @@ func (s *httpService) routeRequest(req *http.Request) {
 // Handle requests
 func (s *httpService) rewriteRequest(req *http.Request, route Route) {
   b := route.Backend
+  p := joinPath(b.Path, req.URL.Path)
+  
   if debug.VERBOSE {
-    fmt.Printf("http: %s %s -> %v (%s)\n", req.Method, req.URL.Path, b, route.Descr)
+    u := &url.URL{Host:b.Host, Path:p, Scheme:b.Scheme}
+    fmt.Printf("http: %s %s -> %v (%s)\n", req.Method, req.URL.Path, u, route.Descr)
   }
   
   if b.Scheme != "" {
@@ -125,7 +129,7 @@ func (s *httpService) rewriteRequest(req *http.Request, route Route) {
   }
   
   req.URL.Host = b.Host
-  req.URL.Path = joinPath(b.Path, req.URL.Path)
+  req.URL.Path = p
   
   req.Host = b.Host
   req.Header.Set("Host", b.Host)

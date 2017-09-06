@@ -20,14 +20,14 @@ SRC = $(shell find src -name \*.go -print)
 # tests
 TEST_PKGS = routron
 
-.PHONY: all test clean install build
+.PHONY: all build install test clean
 
 all: build
 
+build: $(PRODUCT) ## Build the product
+
 $(PRODUCT): $(SRC)
 	go build -o $@ $(MAIN)
-
-build: $(PRODUCT) ## Build the product
 
 install: build ## Build and install
 	install -m 0755 $(PRODUCT) $(PREFIX)/bin/
