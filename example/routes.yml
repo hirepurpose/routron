@@ -19,14 +19,11 @@ backends:
 # to match a request is used.
 routes:
   -
-    path: /hpa/**
+    path: /admin/**
     route: django
   -
-    path: /jobs
-    route: django
-  -
-    path: /jobs/**
-    route: django
+    path: /search
+    route: node
   -
     path: /auth/**
     route: django
