@@ -66,6 +66,7 @@ type Config struct {
  */
 func NewConfig(src io.ReadCloser) (*Config, error) {
   c := &config{}
+  var ok bool
   
   data, err := ioutil.ReadAll(src)
   if err != nil {
@@ -104,9 +105,17 @@ func NewConfig(src io.ReadCloser) (*Config, error) {
       d = []string{"ANY"}
     }
     
-    b, ok := conf.Backends[e.Route]
-    if !ok {
-      return nil, fmt.Errorf("No such backend: %v", e.Route)
+    var b *url.URL
+    if isURL(e.Route) {
+      b, err = url.Parse(e.Route)
+      if err != nil {
+        return nil, fmt.Errorf("Invalid route: %v", err)
+      }
+    }else{
+      b, ok = conf.Backends[e.Route]
+      if !ok {
+        return nil, fmt.Errorf("No such backend: %v", e.Route)
+      }
     }
     
     sort.Strings(d)

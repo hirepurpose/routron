@@ -12,7 +12,6 @@ import (
 import (
   "github.com/bww/go-util/path"
   "github.com/bww/go-util/debug"
-  // "github.com/davecgh/go-spew/spew"
 )
 
 // Don't wait forever
@@ -116,7 +115,7 @@ func (s *httpService) routeRequest(req *http.Request) {
 func (s *httpService) rewriteRequest(req *http.Request, route Route) {
   b := route.Backend
   if debug.VERBOSE {
-    fmt.Printf("http: %s %s -> %v @ %v (%s)\n", req.Method, req.URL.Path, route.Route, b, route.Descr)
+    fmt.Printf("http: %s %s -> %v (%s)\n", req.Method, req.URL.Path, b, route.Descr)
   }
   
   if b.Scheme != "" {

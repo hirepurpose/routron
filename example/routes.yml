@@ -1,5 +1,5 @@
 
-# Listen on 8888 for all interfaces
+# Listen on these ports.
 listen: :8888
 
 # Define our backends. These will be used to handle the proxied
@@ -14,13 +14,24 @@ backends:
   -
     name: rails
     host: http://localhost:3000
-  -
-    name: google
-    host: http://www.google.com
 
 # Define our routes, processed in this order. The first route
 # to match a request is used.
 routes:
+  -
+    path: /hpa/**
+    route: http://localhost:8000/hpa/
+  -
+    path: /jobs
+    route: django
+  -
+    path: /jobs/**
+    route: django
+  -
+    path: /auth/**
+    route: django
+  # If we haven't matched anything yet, everything else goes to
+  # the default route, which matches all requests
   -
     path: /**
     route: rails
